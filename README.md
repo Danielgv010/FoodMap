@@ -22,11 +22,11 @@ Por otro lado, el restaurante puede estar interesado en promocionar algún plato
   - Valoración del cliente de los platos
   - Pago de promoción del plato
 - Para ello:
-  - Quiere tener una base de datos en la que gestionar:
-    - Los restaurantes que estén subscritos al programa, con todos los datos necesarios
-    - Las valoraciones de los platos por parte de los comensales 
-    - Las valoraciones de los restaurantes por parte de los comensales
-    - Las promociones activas asociadas a los platos
+  - Quiere tener una base de datos en la que gestionar
+  - Los restaurantes que estén subscritos al programa, con todos los datos necesarios
+  - Las valoraciones de los platos por parte de los comensales 
+  - Las valoraciones de los restaurantes por parte de los comensales
+  - Las promociones activas asociadas a los platos
   - Necesita un almacenamiento en el que guardar los pdfs o imágenes con los menús diarios y/o cartas menús.
   - Montar un almacén de conocimiento en el que se pueda buscar la información, como se ha descrito en los puntos anteriores.
 
