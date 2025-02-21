@@ -6,8 +6,9 @@ class User(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100)
-    location = models.CharField(max_length=100)
-    location_coordinates = models.CharField(max_length=100)
+    restaurant = models.BooleanField()
+    location = models.CharField(max_length=100, null=True, blank=True)
+    location_coordinates = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return self.name
