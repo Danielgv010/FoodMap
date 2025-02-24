@@ -277,7 +277,7 @@ class TextToJsonView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class PdfOcrToJsonView(APIView):
+class OcrToJsonView(APIView):
     parser_classes = (MultiPartParser,)
 
     @extend_schema(
