@@ -1,0 +1,55 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar {
+    background-color: #333; /* Dark background */
+    overflow: hidden;
+    position: sticky; /* Stick to the top */
+    top: 0;
+    z-index: 100; /* Ensure it stays on top */
+  }
+  
+  .navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s; /* Smooth hover effect */
+  }
+  
+  .navbar a:hover {
+    background-color: #ddd; /* Light gray on hover */
+    color: black; /* Black text on hover */
+  }
+  
+  .navbar .logo {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .navbar .right {
+    float: right;
+  }
+  
+  /* Optional: Add a media query for responsiveness */
+  @media screen and (max-width: 600px) {
+    .navbar a {
+      float: none;
+      display: block;
+      text-align: left;
+    }
+    .navbar .right {
+      float: none;
+    }
+  }
+  
+  /* Example content to see the navbar in action */
+  .content {
+      padding: 20px;
+  }
+  

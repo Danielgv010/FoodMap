@@ -1,0 +1,40 @@
+{% extends "main/master.html" %}
+{% block static %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/navbar.css' %}">
+    <script src="{% static 'main/js/navbar.js' %}"></script>
+{% endblock %}
+{% block content %}
+
+<nav>
+    <div class="logo">FoodMap</div>
+    <div class="hamburger is-sm">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+    </div>
+    <div class="nav-menu">
+        <div class="login">Login</div>
+        
+    </div>
+    <div class="login-modal">
+        <div class="login-modal-header">
+            <span class="close-button">×</span>
+        </div>
+        <form action="">
+            <div class="input-group">
+                <input type="text" name="username" id="username" required>
+                <label for="username">Username</label>
+            </div>
+            <div class="input-group">
+                <input type="password" name="password" id="password" required>
+                <label for="password">Password</label>
+            </div>
+            <p>Don't have an account? <a href="">Click here!</a></p>
+            <button type="submit">Log In</button>
+        </form>
+    </div>
+    <div id="modal-overlay"></div>
+</nav>
+
+{% endblock %}

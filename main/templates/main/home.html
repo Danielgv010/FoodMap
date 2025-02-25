@@ -1,4 +1,6 @@
-{% extends "main/master.html" %}
+{% extends "main/default-nav.html" %}
+
 {% block content %}
-  
+  {{ block.super }}  <!-- Include the navbar from default-nav.html -->
+
 {% endblock %}
