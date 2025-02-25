@@ -1,6 +1,13 @@
-{% extends "main/default-nav.html" %}
+{% extends "main/master.html" %}
+{% load static %}
+
+{% block static %}
+  {{ block.super }}
+  {% block nav_static %}
+    {% include 'main/default-nav.html' %}
+  {% endblock nav_static %}
+{% endblock static %}
 
 {% block content %}
-  {{ block.super }}  <!-- Include the navbar from default-nav.html -->
 
 {% endblock %}

@@ -1,10 +1,4 @@
-{% extends "main/master.html" %}
-{% block static %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'main/css/navbar.css' %}">
-    <script src="{% static 'main/js/navbar.js' %}"></script>
-{% endblock %}
-{% block content %}
+{% load static %}
 
 <nav>
     <div class="logo">FoodMap</div>
@@ -15,7 +9,7 @@
     </div>
     <div class="nav-menu">
         <div class="login">Login</div>
-        
+
     </div>
     <div class="login-modal">
         <div class="login-modal-header">
@@ -30,11 +24,13 @@
                 <input type="password" name="password" id="password" required>
                 <label for="password">Password</label>
             </div>
-            <p>Don't have an account? <a href="">Click here!</a></p>
+            <p>Don't have an account? <a href="{% url 'register' %}">Click here!</a></p>
             <button type="submit">Log In</button>
         </form>
     </div>
     <div id="modal-overlay"></div>
 </nav>
-
-{% endblock %}
+{% block nav_static %}
+    <link rel="stylesheet" href="{% static 'main/css/navbar.css' %}">
+    <script src="{% static 'main/js/navbar.js' %}"></script>
+{% endblock nav_static %}

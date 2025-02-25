@@ -1,0 +1,45 @@
+{% extends "main/master.html" %}
+{% load static %}
+
+{% block static %}
+  {{ block.super }}
+  {% block nav_static %}
+    {% include 'main/default-nav.html' %}
+  {% endblock nav_static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/register.css' %}">
+  <script src="{% static 'accounts/js/register.js' %}"></script>
+{% endblock static %}
+
+{% block content %}
+<main>
+    <div class="registration-form">
+        <h2>Registration</h2>
+        <form action="#" method="POST">
+            <div class="form-input-group">
+                <input type="text" id="name" name="name" required>
+                <label for="name">Name</label>
+            </div>
+            <div class="form-input-group">
+                <input type="email" id="email" name="email" required>
+                <label for="email">Email</label>
+            </div>
+            <div class="form-input-group">
+                <input type="password" id="password" name="password" required>
+                <label for="password">Password</label>
+            </div>
+
+            <div class="deploy-trigger" id="deployTrigger">
+                <div class="triangle"></div>
+                <div class="deploy-text">Restaurant</div>
+            </div>
+
+            <div class="form-input-group" id="location-group">
+                <input type="text" id="location" name="location" required>
+                <label for="location">Location</label>
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</main>
+{% endblock %}

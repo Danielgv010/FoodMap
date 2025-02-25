@@ -1,0 +1,110 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+.registration-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+.registration-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.registration-form .input-group {
+    margin-bottom: 15px;
+}
+
+.registration-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.registration-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.registration-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.registration-form button:hover {
+    background-color: #0056b3;
+}
+
+.deployable-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.deployable-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.deployable-form .input-group {
+    margin-bottom: 15px;
+}
+
+.deployable-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.deployable-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.deployable-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.deployable-form button:hover {
+    background-color: #1e7e34;
+}
