@@ -14,7 +14,7 @@
 <main>
     <div class="registration-form">
         <h2>Registration</h2>
-        <form action="#" method="POST">
+        <form id="registrationForm" method="POST" data-url="{% url 'register-submit' %}">
             {% csrf_token %}
             <div class="form-input-group">
                 <input type="text" id="name" name="name" required>
