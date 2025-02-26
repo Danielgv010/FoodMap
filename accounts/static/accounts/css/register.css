@@ -85,25 +85,19 @@ main {
     background-color: #333;
 }
 
-#location-group {
-    position: absolute; /*changed from initial*/
-    width: 100%;
-    top: 0;
-    left: 0;
+.location-inputs {
+    display: none;
+    flex-direction: column;
+    gap: 1.5em;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease; /* Transition opacity and visibility */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-#location-group.visible {
+.location-inputs.visible {
+    display: flex;
     opacity: 1;
     visibility: visible;
-    position: relative; /*added*/
-}
-
-/* Move the input group inside the location group */
-#location-group .form-input-group {
-    position: relative;  /* Make the container relative for absolute positioning */
 }
 
 /* Styles for the triangle "button" */

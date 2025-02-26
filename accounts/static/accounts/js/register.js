@@ -1,11 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const deployTrigger = document.getElementById('deployTrigger');
-    const locationGroup = document.getElementById('location-group');
+    const locationInputs = document.getElementById('location-inputs');
     const triangle = document.querySelector('.triangle');
-    const locationInput = locationGroup.querySelector('input');
 
     deployTrigger.addEventListener('click', function() {
-        locationGroup.classList.toggle('visible');
+        locationInputs.classList.toggle('visible');
         triangle.classList.toggle('rotated');
     });
 
@@ -26,20 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    if (locationInput) {
-        locationInput.addEventListener('input', function() {
-            if (this.value) {
-                this.setAttribute('valid', true);
-            } else {
-                this.removeAttribute('valid');
-            }
-        });
-
-        if (locationInput.value) {
-            locationInput.setAttribute('valid', true);
-        }
-    }
-
     const form = document.getElementById('registrationForm');
     const apiUrl = form.dataset.url;
 
@@ -47,6 +32,12 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
 
         const formData = new FormData(form);
+        const street = document.getElementById('street').value;
+        const zip = document.getElementById('zip').value;
+        const country = document.getElementById('country').value;
+        const location = `${street},${zip},${country}`;
+
+        formData.append('location', location);
 
         fetch(apiUrl, {
             method: 'POST',
@@ -62,12 +53,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
-            // Handle success
             window.location.href = "/"
 
         })
         .catch(error => {
-            // Handle errors
             if (error && typeof error === 'object') {
               if(error.detail){
                 alert(JSON.stringify(error.detail));
