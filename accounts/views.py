@@ -5,9 +5,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import serializers
-from .serializers import RegisterSerializer, LoginSerializer
+from .serializers import LogoutSerializer, RegisterSerializer, LoginSerializer
 from django.contrib.auth.hashers import check_password
 from main.models import User
+from django.contrib.auth import logout as django_logout
 
 class RegisterView(TemplateView):
     template_name = 'accounts/register.html'
@@ -37,7 +38,7 @@ class RegisterAPIView(APIView):
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
 class LoginAPIView(APIView):
     @extend_schema(
     request=LoginSerializer,
@@ -68,3 +69,9 @@ class LoginAPIView(APIView):
                 return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LogoutAPIView(APIView):
+    serializer_class = LogoutSerializer # add the serializer
+    def post(self, request):
+        django_logout(request)  # removes user_id from session
+        return Response(status=status.HTTP_204_NO_CONTENT)

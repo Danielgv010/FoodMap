@@ -8,7 +8,11 @@
         <span class="hamburger-line"></span>
     </div>
     <div class="nav-menu">
-        <div id="loginButton" class="login">Login</div>
+        {% if request.session.user_id %}
+            <div id="logoutButton" class="logout" data-url="{% url 'logout' %}">Logout</div>
+        {% else %}
+            <div id="loginButton" class="login">Login</div>
+        {% endif %}
     </div>
     <div class="login-modal">
         <div class="login-modal-header">

@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Login Form Submission
     const loginForm = document.getElementById('loginForm');
+
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
             event.preventDefault();
@@ -120,6 +121,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     alert('An error occurred: ' + error);
                 }
+            });
+        });
+    }
+
+    // Logout Logic
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+
+        const apiUrl = logoutButton.dataset.url;
+
+        logoutButton.addEventListener('click', function() {
+            fetch(apiUrl, {  // Replace '/logout/' with your logout URL
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "/";  // Reload the page to reflect logout
+                } else {
+                    console.error('Logout failed');
+                    alert('Logout failed.');
+                }
+            })
+            .catch(error => {
+                console.error('Logout error:', error);
+                alert('An error occurred during logout.');
             });
         });
     }

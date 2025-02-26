@@ -5,4 +5,5 @@ urlpatterns = [
     path('register-form/', views.RegisterView.as_view(), name='register'),
     path('register/', views.RegisterAPIView.as_view(), name='register-submit'),
     path('login/', views.LoginAPIView.as_view(), name='login'),
+    path('logout/', views.LogoutAPIView.as_view(), name='logout'),
 ]

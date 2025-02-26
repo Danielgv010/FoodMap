@@ -61,3 +61,6 @@ class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField(write_only=True)
     password = serializers.CharField(write_only=True, style={'input_type': 'password'})
     token = serializers.CharField(read_only=True)
+
+class LogoutSerializer(serializers.Serializer):
+    pass
