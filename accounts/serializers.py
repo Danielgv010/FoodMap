@@ -1,46 +1,58 @@
-from rest_framework.views import APIView
-from rest_framework.parsers import MultiPartParser
-from rest_framework.response import Response
-from rest_framework import status
-from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework import serializers
+from django.contrib.auth.hashers import make_password
 from django.db import transaction
-from django.contrib.auth.hashers import make_password # for password hashing
 from django.db import IntegrityError
+import requests
+import os
 
 class RegisterSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
     email = serializers.EmailField()
-    password = serializers.CharField(write_only=True)  # write_only to not return password in response
-    location = serializers.CharField(max_length=255, required=False, allow_blank=True) #location is optional
-
+    password = serializers.CharField(write_only=True)
+    location = serializers.CharField(max_length=255, required=False, allow_blank=True)
 
     def validate_password(self, value):
-        """
-        Hash the password before saving.  This is a MUST DO.
-        """
-        return make_password(value)  # Hash the password
-
+        return make_password(value)
 
     def create(self, validated_data):
-        """
-        Create and return a new `User` instance, given the validated data.  This is where you'd interact with your model.
-        Important: You should not call Model.save() directly.
-        """
-        from main.models import User  #Import here to avoid circular import if the view is in the same file as the model.  Replace .models with the correct path if necessary.
+        from main.models import User
 
         try:
-            with transaction.atomic(): #Use transaction to handle errors during database operations
+            with transaction.atomic():
                 location = validated_data.get('location', '')
+                location_coordinates = None
+                restaurant = True if location else False
+
+                if location:
+                    opencage_api_key = os.getenv('OPENCAGE_API_KEY')
+                    if not opencage_api_key:
+                        raise serializers.ValidationError({'error': 'OPENCAGE_API_KEY environment variable not set.'})
+
+                    geocode_url = f"https://api.opencagedata.com/geocode/v1/json?q={location}&key={opencage_api_key}"
+                    response = requests.get(geocode_url)
+                    response.raise_for_status()
+                    data = response.json()
+
+                    if data and data['results']:
+                        latitude = data['results'][0]['geometry']['lat']
+                        longitude = data['results'][0]['geometry']['lng']
+                        location_coordinates = f"{latitude},{longitude}"  # Store as string
+
+                    else:
+                        raise serializers.ValidationError({'location': 'Could not geocode the provided location.'})
+
                 user = User.objects.create(
                     name=validated_data['name'],
                     email=validated_data['email'],
-                    password=validated_data['password'], # Password already hashed in `validate_password`
-                    location = location,
-                    restaurant = True if location else False #Restaurant is false if location exists.
+                    password=validated_data['password'],
+                    location=location,
+                    restaurant=restaurant,
+                    location_coordinates=location_coordinates,
                 )
                 return user
-        except IntegrityError as e: # Catch unique constraint errors (e.g., duplicate email)
+        except IntegrityError as e:
             raise serializers.ValidationError({'email': 'This email address is already in use.'}) from e
-        except Exception as e: #Catch all other errors
+        except requests.exceptions.RequestException as e:
+            raise serializers.ValidationError({'error': f'Geocoding error: {str(e)}'}) from e
+        except Exception as e:
             raise serializers.ValidationError({'error': str(e)}) from e
