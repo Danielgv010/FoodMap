@@ -1,13 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Deploy Trigger Logic
     const deployTrigger = document.getElementById('deployTrigger');
     const locationInputs = document.getElementById('location-inputs');
     const triangle = document.querySelector('.triangle');
 
-    deployTrigger.addEventListener('click', function() {
-        locationInputs.classList.toggle('visible');
-        triangle.classList.toggle('rotated');
-    });
+    if (deployTrigger) {
+        deployTrigger.addEventListener('click', function() {
+            locationInputs.classList.toggle('visible');
+            triangle.classList.toggle('rotated');
+        });
+    }
 
+    // Input Validation Logic
     function checkInputValidity(inputElement) {
         if (inputElement.value) {
             inputElement.classList.add('valid');
@@ -25,50 +29,100 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    const form = document.getElementById('registrationForm');
-    const apiUrl = form.dataset.url;
+    // Registration Form Submission
+    const registrationForm = document.getElementById('registrationForm');
+    if (registrationForm) {
+        const apiUrl = registrationForm.dataset.url;
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
+        registrationForm.addEventListener('submit', function(event) {
+            event.preventDefault();
 
-        const formData = new FormData(form);
-        const street = document.getElementById('street').value;
-        const zip = document.getElementById('zip').value;
-        const country = document.getElementById('country').value;
-        const location = `${street},${zip},${country}`;
+            const formData = new FormData(registrationForm);
+            const street = document.getElementById('street').value;
+            const zip = document.getElementById('zip').value;
+            const country = document.getElementById('country').value;
+            const location = `${street},${zip},${country}`;
 
-        formData.append('location', location);
+            formData.append('location', location);
 
-        fetch(apiUrl, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken')
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => { throw err; });
-            }
-            return response.json();
-        })
-        .then(data => {
-            window.location.href = "/"
+            fetch(apiUrl, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw err; });
+                }
+                return response.json();
+            })
+            .then(data => {
+                window.location.href = "/"; // Redirect after registration
+            })
+            .catch(error => {
+                console.error('Registration error:', error);
 
-        })
-        .catch(error => {
-            if (error && typeof error === 'object') {
-              if(error.detail){
-                alert(JSON.stringify(error.detail));
-              } else {
-                alert(JSON.stringify(error));
-              }
+                if (error && typeof error === 'object') {
+                    if(error.detail){
+                      alert(JSON.stringify(error.detail));
+                    } else {
+                      alert(JSON.stringify(error));
+                    }
 
-            } else {
-                alert('An error occurred: ' + error);
-            }
+                } else {
+                    alert('An error occurred: ' + error);
+                }
+            });
         });
-    });
+    }
+
+    // Login Form Submission
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const apiUrl = loginForm.dataset.url;
+
+            const formData = new FormData(loginForm);
+
+            fetch(apiUrl, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw err; });
+                }
+                return response.json();
+            })
+            .then(data => {
+                window.location.href = "/";
+            })
+            .catch(error => {
+                console.error('Login error:', error);
+
+                if (error && typeof error === 'object') {
+                    if(error.error){
+                      alert(error.error); // Display the error message from the API
+                    }
+                    else if(error.detail){
+                        alert(JSON.stringify(error.detail));
+                      } else {
+                        alert(JSON.stringify(error));
+                      }
+
+                } else {
+                    alert('An error occurred: ' + error);
+                }
+            });
+        });
+    }
 
     function getCookie(name) {
         let cookieValue = null;

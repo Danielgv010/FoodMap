@@ -8,20 +8,20 @@
         <span class="hamburger-line"></span>
     </div>
     <div class="nav-menu">
-        <div id="loginButton">Login</div>
+        <div id="loginButton" class="login">Login</div>
     </div>
     <div class="login-modal">
         <div class="login-modal-header">
             <span class="close-button">×</span>
         </div>
-        <form id="loginForm" data-url="{% url 'login' %}" method="post">
+        <form id="loginForm" method="POST" data-url="{% url 'login' %}">
             {% csrf_token %}
             <div class="input-group">
-                <input type="email" name="email" id="email" required>
+                <input type="email" name="email" id="login-email" required>
                 <label for="email">Email</label>
             </div>
             <div class="input-group">
-                <input type="password" name="password" id="password" required>
+                <input type="password" name="password" id="login-password" required>
                 <label for="password">Password</label>
             </div>
             <p>Don't have an account? <a href="{% url 'register' %}">Click here!</a></p>
