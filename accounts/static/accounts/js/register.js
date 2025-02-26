@@ -43,6 +43,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const country = document.getElementById('country').value;
             const location = `${street},${zip},${country}`;
 
+            if ((street && !zip && !country)|| (!street && zip && !country) || (!street && !zip && country)) {
+                alert('Please fill in the location fields.');
+                return;
+            }
+
             formData.append('location', location);
 
             fetch(apiUrl, {

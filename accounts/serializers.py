@@ -23,7 +23,7 @@ class RegisterSerializer(serializers.Serializer):
                 location_coordinates = None
                 restaurant = True if location else False
 
-                if location:
+                if location and location != ',,':
                     opencage_api_key = os.getenv('OPENCAGE_API_KEY')
                     if not opencage_api_key:
                         raise serializers.ValidationError({'error': 'OPENCAGE_API_KEY environment variable not set.'})
@@ -40,6 +40,8 @@ class RegisterSerializer(serializers.Serializer):
 
                     else:
                         raise serializers.ValidationError({'location': 'Could not geocode the provided location.'})
+                else:
+                    location = None
 
                 user = User.objects.create(
                     name=validated_data['name'],
