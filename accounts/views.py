@@ -5,7 +5,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import serializers
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, LoginSerializer
+from django.contrib.auth.hashers import check_password
+from main.models import User
 
 class RegisterView(TemplateView):
     template_name = 'accounts/register.html'
@@ -35,3 +37,34 @@ class RegisterAPIView(APIView):
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class LoginAPIView(APIView):
+    @extend_schema(
+    request=LoginSerializer,
+    responses={
+        200: OpenApiResponse(response={"type": "object", "properties": {"token": {"type": "string"}}}, description="Login successful"),
+        400: OpenApiResponse(description="Invalid credentials"),
+    }
+    )
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):  # Validate serializer
+            email = serializer.validated_data['email']
+            password = serializer.validated_data['password']
+
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+
+            if check_password(password, user.password): # Verify hashed password
+
+                # Use session based authentication - You can skip token generation
+                request.session['user_id'] = user.id # store user_id in session - important
+
+                return Response({'message': 'Login successful'}, status=status.HTTP_200_OK) #Modify as needed.
+
+            else:
+                return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

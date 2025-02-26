@@ -8,29 +8,24 @@
         <span class="hamburger-line"></span>
     </div>
     <div class="nav-menu">
-        <div class="login">Login</div>
-
+        <div id="loginButton">Login</div>
     </div>
-    <div class="login-modal">
-        <div class="login-modal-header">
-            <span class="close-button">×</span>
+<div class="login-modal">
+    <div class="login-modal-header">
+        <span class="close-button">×</span>
+    </div>
+    <form id="loginForm" data-url="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="email" name="email" id="email" required>
+            <label for="email">Email</label>
         </div>
-        <form action="">
-            <div class="input-group">
-                <input type="text" name="username" id="username" required>
-                <label for="username">Username</label>
-            </div>
-            <div class="input-group">
-                <input type="password" name="password" id="password" required>
-                <label for="password">Password</label>
-            </div>
-            <p>Don't have an account? <a href="{% url 'register' %}">Click here!</a></p>
-            <button type="submit">Log In</button>
-        </form>
-    </div>
-    <div id="modal-overlay"></div>
-</nav>
-{% block nav_static %}
-    <link rel="stylesheet" href="{% static 'main/css/navbar.css' %}">
-    <script src="{% static 'main/js/navbar.js' %}"></script>
-{% endblock nav_static %}
+        <div class="input-group">
+            <input type="password" name="password" id="password" required>
+            <label for="password">Password</label>
+        </div>
+        <p>Don't have an account? <a href="{% url 'register' %}">Click here!</a></p>
+        <button type="submit">Log In</button>
+    </form>
+</div>
+<div id="modal-overlay"></div>

@@ -56,3 +56,8 @@ class RegisterSerializer(serializers.Serializer):
             raise serializers.ValidationError({'error': f'Geocoding error: {str(e)}'}) from e
         except Exception as e:
             raise serializers.ValidationError({'error': str(e)}) from e
+        
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(write_only=True)
+    password = serializers.CharField(write_only=True, style={'input_type': 'password'})
+    token = serializers.CharField(read_only=True)
