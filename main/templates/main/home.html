@@ -6,8 +6,57 @@
   {% block nav_static %}
     {% include 'main/default-nav.html' %}
   {% endblock nav_static %}
+  <link rel="stylesheet" type="" href="{% static 'main/css/home.css' %}">
+  <script src="{% static 'main/js/home.js' %}"></script>
 {% endblock static %}
 
 {% block content %}
+<main>
+    <div class="home-container">
 
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search for menus...">
+            <button id="search-button">Search</button>
+        </div>
+
+        <!-- Location Accordion -->
+        <div class="location-accordion">
+            <button class="accordion">Location Filters</button>
+            <div class="panel">
+                <!-- Map Selection (Placeholder) -->
+                <h4>Map Selection</h4>
+                <div id="map-container">
+                    <p>Map Placeholder</p>
+                </div>
+
+                <!-- KM Slider -->
+                <h4>Distance (km)</h4>
+                <input type="range" id="km-slider" min="1" max="50" value="5">
+                <span id="km-value">5 km</span>
+            </div>
+        </div>
+
+        <!-- Menus Accordion -->
+        <div class="menus-container">
+            <h2>Menus</h2>
+            {% for menu in menus %}
+                <div class="menu-accordion">
+                    <button class="accordion menu-title">{{ menu.user }}{% if menu.price %}<p>{{ menu.price }}€</p>{% endif %}</button>
+                    <div class="panel menu-content">
+                        <h3>Dishes</h3>
+                        <ul>
+                            {% for dish in menu.dish_set.all %}
+                                <li>{{ dish.name }} {% if dish.price %}- ${{ dish.price }}{% endif %}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No menus available.</p>
+            {% endfor %}
+        </div>
+
+    </div>
+</main>
 {% endblock %}

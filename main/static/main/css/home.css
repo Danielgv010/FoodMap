@@ -1,0 +1,98 @@
+main {
+    padding: 20px;
+}
+
+.home-container {
+    max-width: 960px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Search Bar */
+.search-bar {
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.search-bar button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Accordion Styles */
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    transition: 0.4s;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+.menu-title:hover {
+    background-color: #ddd;
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0 0 4px 4px;
+    margin-bottom: 10px;
+}
+
+/* Map and Slider */
+#map-container {
+    height: 200px; /* Adjust as needed */
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+#km-slider {
+    width: 100%;
+}
+
+/* Menu Styles */
+.menu-accordion .menu-title {
+    font-weight: bold;
+    margin-bottom: 0; /*Remove space beetwen Menu Items*/
+}
+
+.menu-accordion .menu-content {
+    padding-top: 0;
+}
+
+.menu-content ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu-content li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
