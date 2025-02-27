@@ -54,7 +54,7 @@
     background-color: #333;
 }
 
-.add-button {
+.add-menu-buton {
     padding: 0.75em 1.5em; 
     background-color: black;
     color: white;
@@ -66,6 +66,6 @@
     margin-top: 1em;
 }
 
-.add-button:hover {
+.add-menu-buton:hover {
     background-color: #333;
 }

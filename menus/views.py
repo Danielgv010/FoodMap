@@ -1,9 +1,21 @@
-from django.shortcuts import render
 from django.views.generic import TemplateView
 from main.models import User
 from .utils import annotate_user_with_menu_existence
+from django.shortcuts import get_object_or_404, render
+from django.views import View
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import serializers, status
+from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
+from rest_framework.permissions import IsAuthenticated
+from .serializers import MenuSerializer
+from drf_spectacular.utils import extend_schema, OpenApiResponse
+import logging
 
+from .serializers import MenuSerializer  # Import the serializer
+from main.models import User  # Ensure you're importing your custom User model
 
+logger = logging.getLogger(__name__)
 # Create your views here.
 
 class ManageMenusView(TemplateView):
@@ -19,3 +31,58 @@ class ManageMenusView(TemplateView):
         context['user'] = user
 
         return context
+    
+
+class AddMenuView(View):
+    def get(self, request):
+        return render(request, 'menus/add-menu.html')
+
+    def post(self, request):
+        return render(request, 'menus/add-menu.html')
+    
+
+class AddMenuAPIView(APIView):
+    parser_classes = (JSONParser, MultiPartParser, FormParser) #Now set JSONParser
+    #permission_classes = [IsAuthenticated]  # Remove IsAuthenticated
+
+    @extend_schema(
+        request=MenuSerializer,
+        responses={
+            201: OpenApiResponse(response={"type": "object", "properties": {"message": {"type": "string"}}},
+                                  description="Menu created successfully"),
+            400: OpenApiResponse(response={"type": "object", "properties": {"error": {"type": "string"}}},
+                                  description="Validation error"),
+            500: OpenApiResponse(response={"type": "object", "properties": {"error": {"type": "string"}}},
+                                  description="Server error"),
+        },
+    )
+    def post(self, request):
+        logger.debug("MenuAPIView - request.session.items(): %s", request.session.items())
+        #logger.debug("MenuAPIView - request.user: %s", request.user)
+        #logger.debug("MenuAPIView - request.user.is_authenticated: %s", request.user.is_authenticated)
+        try:
+            user_id = request.session.get('user_id')  # Get user_id from session
+
+            if not user_id:
+                return Response({"error": "User not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
+
+            user = get_object_or_404(User, pk=user_id)  # Retrieve User object
+            try:
+
+                serializer = MenuSerializer(data=request.data)
+                if serializer.is_valid(raise_exception=True):
+                    logger.debug("MenuAPIView - Serializer validated data: %s", serializer.validated_data)
+                    menu = serializer.create(serializer.validated_data, user)  # Pass the user
+                    return Response({"message": "Menu created successfully", "menu_id": menu.id},
+                                    status=status.HTTP_201_CREATED)
+                else:
+                    logger.error("MenuAPIView - Serializer errors: %s", serializer.errors)
+                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            except serializers.ValidationError as e:
+                logger.error("MenuAPIView - Validation Error: %s", e.detail)
+                return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            logger.exception("MenuAPIView - Exception: %s", e)
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

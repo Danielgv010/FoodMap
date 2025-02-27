@@ -2,11 +2,12 @@
 {% load static %}
 
 {% block static %}
-  {{ block.super }}
-  {% block nav_static %}
-    {% include 'main/default-nav.html' %}
-  {% endblock nav_static %}
-  <link rel="stylesheet" type="text/css" href="{% static 'menus/css/menus.css' %}">
+{{ block.super }}
+{% block nav_static %}
+{% include 'main/default-nav.html' %}
+{% endblock nav_static %}
+<link rel="stylesheet" type="text/css" href="{% static 'menus/css/menus.css' %}">
+<script src="{% static 'menus/js/menus.js' %}"></script>
 {% endblock static %}
 
 {% block content %}
@@ -16,19 +17,19 @@
 
         <div class="menu-list">
             {% if menus %}
-                {% for menu in menus %}
-                    <div class="menu-item">
-                        <h3>{{ menu.name }}</h3>
-                        <p>Price: ${{ menu.price }}</p>
-                        <a href="#" class="more-button">More...</a>
-                    </div>
-                {% endfor %}
+            {% for menu in menus %}
+            <div class="menu-item">
+                <h3>{{ menu.name }}</h3> <!-- Ensure menu has a 'name' field -->
+                <p>Price: ${{ menu.price }}</p>
+                <a href="#" class="more-button">More...</a>
+            </div>
+            {% endfor %}
             {% else %}
-                <p>No menus found. Add one below!</p>
+            <p>No menus found. Add one below!</p>
             {% endif %}
         </div>
 
-        <button class="add-button">Add Menu</button>
+        <button id="add-menu-button" class="add-menu-buton" data-url="{% url 'add-menu' %}">Add Menu</button>
     </div>
 </main>
 {% endblock %}

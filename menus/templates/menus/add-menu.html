@@ -1,0 +1,63 @@
+{% extends "main/master.html" %}
+{% load static %}
+
+{% block static %}
+{{ block.super }}
+{% block nav_static %}
+{% include 'main/default-nav.html' %}
+{% endblock nav_static %}
+<link rel="stylesheet" type="text/css" href="{% static 'menus/css/add-menu.css' %}">
+<script src="{% static 'menus/js/add-menu.js' %}"></script>
+{% endblock static %}
+
+{% block content %}
+<main>
+    <div class="menu-form-container">
+        <h2>Add New Menu</h2>
+
+        <form id="add-menu-form" method="post" data-url="{% url 'menu-api' %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <button type="button" id="autocomplete-button">Autocomplete</button>
+            </div>
+
+            <div class="form-group">
+                <label for="menu_price">Menu Price:</label>
+                <input type="number" id="menu_price" name="menu_price" step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="set_menu">Set Menu:</label>
+                <input type="checkbox" id="set_menu" name="set_menu">
+            </div>
+
+            <h3>Dishes</h3>
+            <div id="dishes-container">
+                <!-- Initial Dish Row -->
+                <div class="dish-row">
+                    <div class="form-group">
+                        <label for="dish_name_0">Dish Name:</label>
+                        <input type="text" id="dish_name_0" name="dish_name[]">
+                    </div>
+                    <div class="form-group">
+                        <label for="dish_price_0">Dish Price:</label>
+                        <input type="number" id="dish_price_0" name="dish_price[]" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="dish_promoted_0">Promoted:</label>
+                        <input type="checkbox" id="dish_promoted_0" name="dish_promoted[]">
+                    </div>
+                    <button type="button" class="delete-dish-button">Delete</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="button" id="add-dish-button">Add Dish</button>
+            </div>
+
+            <button type="submit">Save Menu</button>
+        </form>
+    </div>
+</main>
+{% endblock %}
