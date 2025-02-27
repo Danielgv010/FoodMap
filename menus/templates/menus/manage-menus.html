@@ -1,0 +1,34 @@
+{% extends "main/master.html" %}
+{% load static %}
+
+{% block static %}
+  {{ block.super }}
+  {% block nav_static %}
+    {% include 'main/default-nav.html' %}
+  {% endblock nav_static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'menus/css/menus.css' %}">
+{% endblock static %}
+
+{% block content %}
+<main>
+    <div class="menu-container">
+        <h2>Your Menus</h2>
+
+        <div class="menu-list">
+            {% if menus %}
+                {% for menu in menus %}
+                    <div class="menu-item">
+                        <h3>{{ menu.name }}</h3>
+                        <p>Price: ${{ menu.price }}</p>
+                        <a href="#" class="more-button">More...</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No menus found. Add one below!</p>
+            {% endif %}
+        </div>
+
+        <button class="add-button">Add Menu</button>
+    </div>
+</main>
+{% endblock %}

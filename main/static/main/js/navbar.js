@@ -136,4 +136,15 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         return cookieValue;
     }
+
+    // Add Menu Logic
+
+    const manageMenusButton = document.getElementById('manageMenusButton');
+
+    if(manageMenusButton){
+        manageMenusButton.addEventListener("click", function() {
+            window.location.href = manageMenusButton.dataset.url;
+        });
+    }
+
 });

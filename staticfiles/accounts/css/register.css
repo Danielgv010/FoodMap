@@ -1,13 +1,13 @@
-body {
+main {
     font-family: 'Poppins', sans-serif;
     background-color: #f4f4f4;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    min-height: calc(100vh - 3.5em);
     margin: 0;
-    padding: 20px;
+    padding: 2em;
 }
 
 .registration-form {
@@ -25,86 +25,104 @@ body {
     margin-bottom: 20px;
 }
 
-.registration-form .input-group {
-    margin-bottom: 15px;
+.registration-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
 }
 
-.registration-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
+.form-input-group {
+    position: relative;
 }
 
-.registration-form input {
+.form-input-group input {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 0.75em;
+    border: 2px solid black;
     border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 16px;
+    outline: none;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
 }
 
-.registration-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-.registration-form button:hover {
-    background-color: #0056b3;
-}
-
-.deployable-form {
+.form-input-group label {
+    position: absolute;
+    top: 0.75em;
+    left: 0.75em;
+    padding: 0.5em;
     background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-}
-
-.deployable-form h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.deployable-form .input-group {
-    margin-bottom: 15px;
-}
-
-.deployable-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-}
-
-.deployable-form input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
+    color: black;
+    font-size: 0.8em;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    transform-origin: left top;
     border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 16px;
 }
 
-.deployable-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
+.form-input-group input:focus + label,
+.form-input-group input:valid + label {
+    transform: translateY(-100%) scale(0.8);
+    background-color: white;
+    padding: 0 0.5em;
+}
+
+.form-input-group input:focus {
+    border-color: teal;
+}
+
+.registration-form button[type="submit"] {
+    padding: 0.75em 1.5em;
+    background-color: black;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
 }
 
-.deployable-form button:hover {
-    background-color: #1e7e34;
+.registration-form button[type="submit"]:hover {
+    background-color: #333;
+}
+
+.location-inputs {
+    display: none;
+    flex-direction: column;
+    gap: 1.5em;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.location-inputs.visible {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Styles for the triangle "button" */
+.deploy-trigger {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-left: 20px solid #4CAF50; /* Green, adjust color as needed */
+    transition: transform 0.3s ease; /* Smooth rotation */
+}
+
+.triangle.rotated {
+    transform: rotate(90deg); /* Rotate the triangle */
+}
+
+.deploy-text {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #333;
 }

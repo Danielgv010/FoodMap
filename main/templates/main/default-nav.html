@@ -10,6 +10,7 @@
     <div class="nav-menu">
         {% if request.session.user_id %}
             <div id="logoutButton" class="logout" data-url="{% url 'logout' %}">Logout</div>
+            <div id="manageMenusButton" class="manageMenus" data-url="{% url 'manage-menus' %}">Manage Menus</div>
         {% else %}
             <div id="loginButton" class="login">Login</div>
         {% endif %}

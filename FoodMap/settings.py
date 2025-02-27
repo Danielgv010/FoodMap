@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'main',
     'load_document',
     'accounts',
+    'menus',
 ]
 
 MIDDLEWARE = [
