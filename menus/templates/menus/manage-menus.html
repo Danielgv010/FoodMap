@@ -19,7 +19,7 @@
             {% if menus %}
             {% for menu in menus %}
             <div class="menu-item">
-                <h3>{{ menu.name }}</h3> <!-- Ensure menu has a 'name' field -->
+                <h3>{{ menu.modified_date }}</h3> <!-- Ensure menu has a 'name' field -->
                 <p>Price: ${{ menu.price }}</p>
                 <a href="#" class="more-button">More...</a>
             </div>

@@ -1,7 +1,8 @@
+from django.urls import reverse
 from django.views.generic import TemplateView
-from main.models import User
+from main.models import User, Menu
 from .utils import annotate_user_with_menu_existence
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -24,11 +25,21 @@ class ManageMenusView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        user = self.request.user
+        user_id = self.request.session.get('user_id')  # Get user_id from session
+
+        if not user_id:
+            # User not authenticated. Redirect to login or show an error
+            login_url = reverse('login')  # Replace 'login' with your actual login URL name
+            return redirect(login_url) #This will stop to execute this function
+
+        user = get_object_or_404(User, pk=user_id)  # Retrieve User object by ID
 
         user = annotate_user_with_menu_existence(User.objects.filter(pk=user.pk)).first()
 
+        menus = Menu.objects.filter(user=user)
+
         context['user'] = user
+        context['menus'] = menus
 
         return context
     
@@ -43,7 +54,6 @@ class AddMenuView(View):
 
 class AddMenuAPIView(APIView):
     parser_classes = (JSONParser, MultiPartParser, FormParser) #Now set JSONParser
-    #permission_classes = [IsAuthenticated]  # Remove IsAuthenticated
 
     @extend_schema(
         request=MenuSerializer,
@@ -58,8 +68,6 @@ class AddMenuAPIView(APIView):
     )
     def post(self, request):
         logger.debug("MenuAPIView - request.session.items(): %s", request.session.items())
-        #logger.debug("MenuAPIView - request.user: %s", request.user)
-        #logger.debug("MenuAPIView - request.user.is_authenticated: %s", request.user.is_authenticated)
         try:
             user_id = request.session.get('user_id')  # Get user_id from session
 
