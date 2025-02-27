@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const addDishButton = document.getElementById('add-dish-button');
     const dishesContainer = document.getElementById('dishes-container');
     let dishCount = 1; // Start from 1 since there's already one dish row.
+    const autocompleteButton = document.getElementById('autocomplete-button');
+    const ocrApiUrl = addMenuForm.dataset.ocrUrl;  // Retrieve the OCR API URL
+    const apiUrl = addMenuForm.dataset.url;
 
     // Function to add a new dish row
     function addDishRow() {
@@ -47,12 +50,119 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // OCR and Form Population Function
+    function populateFormFromOcr(extractedJson) {
+        if (extractedJson.is_more_than_one_menu === true) {
+            alert('The uploaded document seems to contain multiple menus. Please upload a document with only one menu.');
+            return; // Stop form population
+        }
+
+        const menuPriceElement = document.getElementById('menu_price');
+        const setMenuElement = document.getElementById('set_menu');
+
+        if (extractedJson.price !== undefined) {
+            menuPriceElement.value = extractedJson.price;
+        }
+
+        if (extractedJson.is_more_than_one_menu !== undefined) {
+            setMenuElement.checked = extractedJson.is_more_than_one_menu;
+        }
+
+
+        // Clear existing dish rows (except the first one)
+        while (dishesContainer.children.length > 1) {
+            dishesContainer.removeChild(dishesContainer.lastChild);
+        }
+
+        // Repopulate dish rows
+        if (extractedJson.products && Array.isArray(extractedJson.products)) {
+            extractedJson.products.forEach((product, index) => {
+                if (index > 0) {
+                    addDishRow(); // Add a new row for each product after the first
+                }
+                const dishNameInput = document.querySelector(`#dish_name_${index}`); //Select the first row always
+                if (dishNameInput) {
+                    dishNameInput.value = product;
+                }
+            });
+        }
+    }
+
+   // Autocomplete button click handler
+    if (autocompleteButton) {
+        autocompleteButton.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            // Create an invisible file input element
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = '.pdf';
+            fileInput.style.display = 'none'; // Hide the input
+
+            // Listen for the file selection
+            fileInput.addEventListener('change', function(event) {
+                const pdfFile = event.target.files[0];
+
+                if (!pdfFile) {
+                    alert('Please select a PDF file.');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('pdf_file', pdfFile);
+
+                fetch(ocrApiUrl, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw err; });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('OCR Data:', data);
+
+                    if (data.extracted_json) {
+                        populateFormFromOcr(data.extracted_json);
+                    } else {
+                        alert('No extracted data found.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during OCR:', error);
+                    if (error && typeof error === 'object') {
+                        if(error.detail){
+                            alert(JSON.stringify(error.detail));
+                        } else {
+                            alert(JSON.stringify(error));
+                        }
+
+                    } else {
+                        alert('An error occurred: ' + error);
+                    }
+                });
+
+                // Remove the file input after processing
+                document.body.removeChild(fileInput);
+            });
+
+            // Add the file input to the document and trigger the click event
+            document.body.appendChild(fileInput);
+            fileInput.click();
+        });
+    }
+
+
     // Form submission handling
     if (addMenuForm) {
         addMenuForm.addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission
 
-            const apiUrl = addMenuForm.dataset.url;
 
             // Get form data
             const menuNameElement = document.getElementById('menu_name');

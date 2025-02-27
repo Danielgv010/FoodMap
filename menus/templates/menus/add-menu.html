@@ -15,7 +15,7 @@
     <div class="menu-form-container">
         <h2>Add New Menu</h2>
 
-        <form id="add-menu-form" method="post" data-url="{% url 'menu-api' %}">
+        <form id="add-menu-form" method="post" data-url="{% url 'menu-api' %}" data-ocr-url="{% url 'ocr-to-json' %}">
             {% csrf_token %}
 
             <div class="form-group">
