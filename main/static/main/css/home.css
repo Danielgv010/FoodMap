@@ -183,11 +183,6 @@ h2 {
     background-color: #0056b3;
 }
 
-/* Utility class for JS */
-.active {
-    background-color: #ddd;
-}
-
 .menu-price {
   font-size: 14px;
 }
