@@ -147,8 +147,10 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    for(logo in document.getElementsByClassName("logo")){
-        document.getElementsByClassName("logo")[logo].addEventListener("click", function() {
+    let logos = document.getElementsByClassName("logo"); // store collection in a variable
+
+    for (let i = 0; i < logos.length; i++) {
+        logos[i].addEventListener("click", function() {
             window.location.href = "/";
         });
     }

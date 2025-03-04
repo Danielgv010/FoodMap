@@ -3,9 +3,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     for (let i = 0; i < acc.length; i++) {
         acc[i].addEventListener("click", function() {
+            /* Toggle between hiding and showing the active panel */
             let panel = this.nextElementSibling;
-            panel.style.setProperty('--panel-height', panel.scrollHeight + 'px');  /*Set the element panel of variable from panel style css*/
-             panel.classList.toggle('open');    /*Set the class of variable set earlier to trigger the animations with animation value from .panel*/
+
+            if (panel.classList.contains('open')) {
+                panel.classList.remove('open');
+            } else {
+                panel.classList.add('open');
+            }
         });
     }
 

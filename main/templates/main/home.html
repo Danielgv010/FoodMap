@@ -8,6 +8,7 @@
   {% endblock nav_static %}
   <link rel="stylesheet" type="" href="{% static 'main/css/home.css' %}">
   <script src="{% static 'main/js/home.js' %}"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 {% endblock static %}
 
 {% block content %}
@@ -17,23 +18,27 @@
         <!-- Search Bar -->
         <div class="search-bar">
             <input type="text" id="search-input" placeholder="Search for menus...">
-            <button id="search-button">Search</button>
+            <button id="search-button"><i class="fas fa-search"></i> Search</button>
         </div>
 
         <!-- Location Accordion -->
         <div class="location-accordion">
-            <button class="accordion">Location Filters</button>
+            <button class="accordion">
+              <i class="fas fa-map-marker-alt"></i> Location Filters
+            </button>
             <div class="panel">
-                <!-- Map Selection (Placeholder) -->
+                <div class = "panel-content-inner">
                 <h4>Map Selection</h4>
                 <div id="map-container">
                     <p>Map Placeholder</p>
+                    <!-- Ideally you'd have a leaflet or similar map integrated here. -->
                 </div>
-
-                <!-- KM Slider -->
                 <h4>Distance (km)</h4>
-                <input type="range" id="km-slider" min="1" max="50" value="5">
-                <span id="km-value">5 km</span>
+                <div class="km-slider-container">
+                    <input type="range" id="km-slider" min="1" max="50" value="5">
+                    <span id="km-value">5 km</span>
+                </div>
+              </div>
             </div>
         </div>
 
@@ -42,14 +47,27 @@
             <h2>Menus</h2>
             {% for menu in menus %}
                 <div class="menu-accordion">
-                    <button class="accordion menu-title">{{ menu.user }}{% if menu.price %}<p>{{ menu.price }}€</p>{% endif %}</button>
+                    <button class="accordion menu-title">
+                      <i class="fas fa-utensils"></i> {{ menu.user }}
+                      {% if menu.price %}
+                        <span class="menu-price">{{ menu.price }}€</span>
+                      {% endif %}
+                    </button>
                     <div class="panel menu-content">
+                      <div class = "panel-content-inner">
                         <h3>Dishes</h3>
                         <ul>
                             {% for dish in menu.dish_set.all %}
-                                <li>{{ dish.name }} {% if dish.price %}- ${{ dish.price }}{% endif %}</li>
+                                <li>
+                                  {{ dish.name }}
+                                  {% if dish.price %}
+                                    <span class="dish-price"> - ${{ dish.price }}</span>
+                                  {% endif %}
+                                </li>
                             {% endfor %}
                         </ul>
+                        <button class="add-review-button"><i class="fas fa-comment"></i> Add Review</button>
+                      </div>
                     </div>
                 </div>
             {% empty %}

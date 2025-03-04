@@ -147,4 +147,10 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    for(logo in document.getElementsByClassName("logo")){
+        document.getElementsByClassName("logo")[logo].addEventListener("click", function() {
+            window.location.href = "/";
+        });
+    }
+
 });

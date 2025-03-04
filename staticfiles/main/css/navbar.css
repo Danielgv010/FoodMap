@@ -23,6 +23,7 @@ nav {
 .logo {
     font-size: 1em;
     font-family: 'Bukhari Script', sans-serif;
+    cursor: pointer;
 }
 
 .hamburger {
