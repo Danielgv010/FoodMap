@@ -126,15 +126,11 @@ h2 {
 
 /* Map and Slider */
 #map-container {
-    height: 200px;
+    height: 300px; /* Adjust as needed */
+    width: 100%; /* Make it responsive */
     border: 1px solid #ccc;
     border-radius: 6px;
     margin-bottom: 15px;
-    background-color: #eee;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #777;
 }
 
 .km-slider-container {

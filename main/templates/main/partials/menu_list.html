@@ -1,0 +1,29 @@
+{% for menu in menus %}
+    <div class="menu-accordion">
+        <button class="accordion menu-title">
+          <i class="fas fa-utensils"></i> {{ menu.user }}
+          {% if menu.price %}
+            <span class="menu-price">{{ menu.price }}€</span>
+          {% endif %}
+        </button>
+        <div class="panel menu-content">
+          <div class = "panel-content-inner">
+            <h3>Dishes</h3>
+            <ul>
+                {% for dish in menu.dish_set.all %}
+                    <li>
+                      {{ dish.name }}
+                      {% if dish.price %}
+                        <span class="dish-price"> - ${{ dish.price }}</span>
+                      {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+            <button class="add-review-button" data-restaurant-id="{{ menu.user.id }}"><i class="fas fa-comment"></i> Add Review</button>
+            {% include 'main/partials/review_form.html' with menu=menu %}
+          </div>
+        </div>
+    </div>
+{% empty %}
+    <p>No menus available.</p>
+{% endfor %}

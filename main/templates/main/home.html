@@ -6,7 +6,11 @@
   {% block nav_static %}
     {% include 'main/default-nav.html' %}
   {% endblock nav_static %}
+
+  <link rel="stylesheet" href="{% static 'main/css/leaflet.css' %}" />  <!-- Leaflet CSS -->
   <link rel="stylesheet" type="" href="{% static 'main/css/home.css' %}">
+
+  <script src="{% static 'main/js/leaflet.js' %}"></script> <!-- Leaflet JS -->
   <script src="{% static 'main/js/home.js' %}"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 {% endblock static %}
@@ -17,7 +21,7 @@
 
         <!-- Search Bar -->
         <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Search for menus...">
+            <input type="text" id="search-input" placeholder="Search for menus..." data-url="{% url 'search-api' %}">
             <button id="search-button"><i class="fas fa-search"></i> Search</button>
         </div>
 
@@ -30,8 +34,7 @@
                 <div class = "panel-content-inner">
                 <h4>Map Selection</h4>
                 <div id="map-container">
-                    <p>Map Placeholder</p>
-                    <!-- Ideally you'd have a leaflet or similar map integrated here. -->
+
                 </div>
                 <h4>Distance (km)</h4>
                 <div class="km-slider-container">
@@ -45,35 +48,7 @@
         <!-- Menus Accordion -->
         <div class="menus-container">
             <h2>Menus</h2>
-            {% for menu in menus %}
-                <div class="menu-accordion">
-                    <button class="accordion menu-title">
-                      <i class="fas fa-utensils"></i> {{ menu.user }}
-                      {% if menu.price %}
-                        <span class="menu-price">{{ menu.price }}€</span>
-                      {% endif %}
-                    </button>
-                    <div class="panel menu-content">
-                      <div class = "panel-content-inner">
-                        <h3>Dishes</h3>
-                        <ul>
-                            {% for dish in menu.dish_set.all %}
-                                <li>
-                                  {{ dish.name }}
-                                  {% if dish.price %}
-                                    <span class="dish-price"> - ${{ dish.price }}</span>
-                                  {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                        <button class="add-review-button" data-restaurant-id="{{ menu.user.id }}"><i class="fas fa-comment"></i> Add Review</button>
-                        {% include 'main/partials/review_form.html' with menu=menu %}
-                      </div>
-                    </div>
-                </div>
-            {% empty %}
-                <p>No menus available.</p>
-            {% endfor %}
+            {% include 'main/partials/menu_list.html' %}
         </div>
 
     </div>

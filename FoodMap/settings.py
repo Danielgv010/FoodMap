@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'accounts',
     'menus',
     'reviews',
+    'search',
 ]
 
 MIDDLEWARE = [
@@ -153,3 +154,9 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_REQUEST': True,
 }
+
+
+# Environ
+AZURE_SEARCH_ENDPOINT = os.environ.get("AZURE_SEARCH_ENDPOINT")
+AZURE_SEARCH_INDEX_NAME = os.environ.get("AZURE_SEARCH_INDEX_NAME")
+AZURE_SEARCH_API_KEY = os.environ.get("AZURE_SEARCH_API_KEY")
