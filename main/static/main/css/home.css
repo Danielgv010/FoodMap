@@ -186,3 +186,90 @@ h2 {
 .menu-price {
   font-size: 14px;
 }
+
+/* Review Form Styles */
+.review-form-container {
+    margin-top: 15px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px; /* Use the same border-radius as .home-container */
+    background-color: #fff; /* Match background color with accordion */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+}
+
+.review-form-container h3 {
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    font-size: 1.5em; /* Slightly larger heading */
+}
+
+.review-form .form-group {
+    margin-bottom: 15px;
+}
+
+.review-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555; /* Slightly softer color */
+}
+
+.review-form input[type="text"],
+.review-form textarea,
+.review-form select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px; /* Match border-radius with search bar */
+    font-size: 16px;
+    line-height: 1.4; /* Improve readability */
+    box-sizing: border-box; /* Prevent padding from affecting width */
+    font-family: 'Arial', sans-serif; /* Ensure consistent font */
+}
+
+.review-form textarea {
+    resize: vertical; /* Allow users to adjust height */
+    min-height: 100px; /* Give a reasonable starting height */
+}
+
+/* Button Styles (Consistent with Add Review Button) */
+.review-form .add-review-button {
+    padding: 12px 20px;
+    background-color: #28a745; /* Use same green as search bar button */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.review-form .add-review-button:hover {
+    background-color: #218838;
+}
+
+/* Cancel Button (Added) */
+.review-form .cancel-review-button {
+    padding: 12px 20px;
+    background-color: #dc3545; /* Red color for cancel */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+    margin-left: 10px; /* Space from submit button */
+}
+
+.review-form .cancel-review-button:hover {
+    background-color: #c82333;
+}
+
+/* Review Message (Feedback) */
+.review-form .review-message {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #28a745; /* Green for success */
+}

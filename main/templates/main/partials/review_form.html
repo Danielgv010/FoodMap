@@ -1,0 +1,23 @@
+{# templates/main/partials/review_form.html #}
+<div class="review-form-container" style="display: none;">  <!-- Initially hidden -->
+    <h3>Add Review for {{ menu.user }}</h3>
+    <form class="review-form" data-restaurant-id="{{ menu.user.id }}" data-url="{% url 'add-review-api' %}">
+        <div class="form-group">
+            <label for="rating">Rating (1-5):</label>
+            <select class="rating" name="rating" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="content">Review:</label>
+            <textarea class="content" name="content" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="add-review-button">Submit Review</button>
+        <button type="button" class="cancel-review-button">Cancel</button>
+    </form>
+    <div class="review-message"></div>
+</div>
